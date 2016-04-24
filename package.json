@@ -1,0 +1,36 @@
+{
+  "name": "@yaga/base",
+  "version": "0.0.6",
+  "description": "The core framework for yaga applications",
+  "scripts": {
+    "test": "mocha",
+    "tsc:w": "cd ts; tsc -w",
+    "tsc": "cd ts; tsc",
+    "clean": "rm -Rf abstraction driver point latlng transformation projection crs bounds layer map tile-layer wms-layer geojson-layer"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yagajs/base.git"
+  },
+  "keywords": [
+    "abstraction",
+    "geo",
+    "spatial"
+  ],
+  "author": "Arne Schubert <atd.schubertgmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yagajs/base/issues"
+  },
+  "homepage": "https://github.com/yagajs/base#readme",
+  "dependencies": {
+    "cheerio": "^0.20.0"
+  },
+  "devDependencies": {
+    "browserify": "^13.0.0",
+    "mocha": "^2.4.5",
+    "tsc": "^1.20150623.0",
+    "typescript": "^1.8.10"
+  },
+  "typings": "typings/"
+}
