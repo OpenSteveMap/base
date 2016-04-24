@@ -4,6 +4,6 @@
     "geojson": "registry:dt/geojson#0.0.0+20160319143602",
     "leaflet": "registry:dt/leaflet#0.7.3+20160412142116",
     "mocha": "registry:dt/mocha#2.2.5+20160317120654",
-    "node": "registry:dt/node#4.0.0+20160412142033"
+    "node": "registry:dt/node#4.0.0+20160423143914"
   }
 }

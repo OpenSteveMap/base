@@ -37,16 +37,6 @@ typings/
 .idea/
 
 # transpiled
-abstraction/
-driver/
-point/
-latlng/
-transformation/
-projection/
-crs/
-bounds/
-layer/
-map/
-tile-layer/
-wms-layer/
-geojson-layer/
+*.js
+*.d.ts
+*.map

@@ -1,3 +1,6 @@
+/// <reference path="../typings/main.d.ts" />
+
+/* tslint:disable:no-require-imports */
 require('../abstraction/abstraction.spec');
 require('../driver/driver.spec');
 require('../point/point.spec');
@@ -11,4 +14,3 @@ require('../map/map.spec');
 require('../tile-layer/tile-layer.spec');
 require('../wms-layer/wms-layer.spec');
 require('../geojson-layer/geojson-layer.spec');
-//# sourceMappingURL=index.js.map
