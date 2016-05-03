@@ -1,6 +1,6 @@
 {
   "name": "@yaga/base",
-  "version": "0.0.7",
+  "version": "0.0.12",
   "description": "The core framework for yaga applications",
   "scripts": {
     "test": "tsc; mocha",

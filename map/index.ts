@@ -23,22 +23,30 @@ export class Map extends Abstraction implements IMap {
 
         this.center = new LatLng(opts.center || {lat: 0, lng: 0});
         this.domRoot = opts.domRoot || fallbackDom;
-        this.layers = opts.layers || [];
+        this.layers = [];
         this.zoom = opts.zoom || 1;
+
+        for (let i: number = 0; i < opts.layers.length; i += 1) {
+            let layer: Layer = createLayer(opts.layers[i]);
+            layer.addToMap(this);
+            this.layers.push(layer);
+        }
     }
 
-    public setCenter(value: ILatLngOptions, origin: any[] = []): void {
+    public setCenter(value: ILatLngOptions, origin: any[] = []): Map {
         this.center.setLat(value.lat);
         this.center.setLng(value.lng);
 
         setterHelper(this, 'center', this.center, origin);
+        return this;
     }
     public getCenter(): LatLng {
         return getterHelper(this, 'center');
     }
 
-    public setZoom(value: number, origin: any[] = []): void {
+    public setZoom(value: number, origin: any[] = []): Map {
         setterHelper(this, 'zoom', value, origin);
+        return this;
     }
     public getZoom(): number {
         return getterHelper(this, 'zoom');
@@ -48,23 +56,35 @@ export class Map extends Abstraction implements IMap {
         return getterHelper(this, 'domRoot');
     }
 
-    public addLayer(value: ILayerOptions, origin: any[] = []): void {
-        adderHelper(this, 'layers', createLayer(value, this), origin);
+    public addLayer(value: ILayerOptions, origin: any[] = []): Map {
+        var layer: Layer = createLayer(value);
+        layer.addToMap(this);
+        adderHelper(this, 'layers', layer, origin);
+        return this;
     };
-    public removeLayer(value: ILayerOptions, origin: any[] = []): void {
+    public removeLayer(value: Layer, origin: any[] = []): Map {
+        value.removeFromMap(this);
         removerHelper(this, 'layers', value, origin);
+        return this;
     };
     public getLayers(): Layer[] {
         return getterHelper(this, 'layers');
     };
-    public setLayers(value: ILayerOptions[] = [], origin: any[] = []): void {
+    public setLayers(value: ILayerOptions[] = [], origin: any[] = []): Map {
         var i: number,
             layers: Layer[] = [];
 
+        for (i = 0; i < this.layers.length; i += 1) {
+            this.layers[i].removeFromMap(this);
+        }
+
         for (i = 0; i < value.length; i += 1) {
-            layers.push(createLayer(value[i], this));
+            let layer: Layer = createLayer(value[i]);
+            layer.addToMap(this);
+            layers.push(layer);
         }
 
         setterHelper(this, 'layers', layers, origin);
+        return this;
     };
 }

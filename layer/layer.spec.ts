@@ -8,6 +8,10 @@ export var layerApi: IAbstractApiDescription = {
         methodTypes: ['get', 'set'],
         testData: ['this is a test layer', 'still a test layer']
     },
+    display: {
+        methodTypes: ['enable', 'disable'],
+        testData: [false, true]
+    },
     maxZoom: {
         methodTypes: ['get', 'set'],
         testData: [17, 15]
@@ -58,12 +62,12 @@ describe('Layer registry', (): void => {
                 attribution: 'Just a test layer',
                 name: 'Test Layer',
                 type: 'abstraction'
-                /* tslint:disable:align */
-            }, testMap);
-        /* tslint:enable:align */
+            });
+
         if (!TestLayer.prototype.isPrototypeOf(layer)) {
             throw new Error('Not instantiated from the correct abstraction');
         }
+        layer.addToMap(testMap);
         if (layer.map !== testMap) {
             throw new Error('Incorrect Map added');
         }

@@ -10,17 +10,17 @@ export interface IMap extends IMapOptions {
     domRoot: HTMLElement;
     layers: any[]; // LayerAbstraction[];
 
-    setCenter(centerLatLng: any, origin?: any[]): void; // ILatLngOptions
+    setCenter(centerLatLng: any, origin?: any[]): IMap; // ILatLngOptions
     getCenter(): any; // LatLngAbstraction
 
-    setZoom(level: number, origin?: any[]): void;
+    setZoom(level: number, origin?: any[]): IMap;
     getZoom(): number;
 
     getDomRoot(): HTMLElement;
 
-    addLayer(layer: any, origin?: any[]): void; // ILayerOptions
-    setLayers(layers: any[], origin?: any[]): void; // ILayerOptions[]
-    removeLayer(layer: any, origin?: any[]): void; // ILayerOptions
+    addLayer(layer: any, origin?: any[]): IMap; // ILayerOptions
+    setLayers(layers: any[], origin?: any[]): IMap; // ILayerOptions[]
+    removeLayer(layer: any, origin?: any[]): IMap; // ILayerOptions
     getLayers(): any[]; // LayerAbstraction
 
 }

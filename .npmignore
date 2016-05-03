@@ -35,3 +35,6 @@ node_modules
 typings/
 
 .idea/
+
+index.ts
+*.spec.ts

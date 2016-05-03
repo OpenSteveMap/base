@@ -1,5 +1,5 @@
 
-import {Abstraction, getterHelper, setterHelper } from '../abstraction';
+import {Abstraction, getterHelper, setterHelper, enableHelper, disableHelper, emitterHelper} from '../abstraction';
 import { IMap } from '../map/declaration';
 
 export interface ILayerOptions {
@@ -10,6 +10,7 @@ export interface ILayerOptions {
     opacity?: number;
     minZoom?: number;
     maxZoom?: number;
+    display?: boolean;
     // maxNativeZoom?: number; // todo maybe insert in tile-layer
 }
 
@@ -31,9 +32,14 @@ export interface ILayer extends ILayerOptions {
     getOpacity(): number;
     getMaxZoom(): number;
     getMinZoom(): number;
-    getMaxNativeZoom(): number;
+    // getMaxNativeZoom(): number;
 
     getType(): string;
+
+    enableDisplay(origin?: any[]): ILayer;
+    disableDisplay(origin?: any[]): ILayer;
+
+    addToMap(map: IMap, origin?: any[]): void;
 
 }
 
@@ -44,6 +50,7 @@ export class Layer extends Abstraction implements ILayer {
     public opacity: number;
     public maxZoom: number;
     public minZoom: number;
+    public display: boolean;
     // public maxNativeZoom: number
 
     public map: IMap;
@@ -52,6 +59,9 @@ export class Layer extends Abstraction implements ILayer {
         super();
         if (!opts.hasOwnProperty('opacity') || opts.opacity === undefined) {
             opts.opacity = 1;
+        }
+        if (!opts.hasOwnProperty('display') || opts.display === undefined) {
+            opts.display = true;
         }
 
         this.type = opts.type;
@@ -62,6 +72,7 @@ export class Layer extends Abstraction implements ILayer {
         this.opacity = opts.opacity;
         this.minZoom = opts.minZoom;
         this.maxZoom = opts.maxZoom;
+        this.display = opts.display;
     }
 
     public setName(value: string, origin: any[] = []): Layer {
@@ -84,10 +95,6 @@ export class Layer extends Abstraction implements ILayer {
         setterHelper(this, 'minZoom', value, origin);
         return this;
     }
-    public setMaxNativeZoom(value: number, origin: any[] = []): Layer {
-        setterHelper(this, 'maxNativeZoom', value, origin);
-        return this;
-    }
 
     public getName(): string {
         return getterHelper(this, 'name');
@@ -107,9 +114,24 @@ export class Layer extends Abstraction implements ILayer {
     public getType(): string {
         return getterHelper(this, 'type');
     }
-    public getMaxNativeZoom(): number {
-        return getterHelper(this, 'maxNativeZoom');
+
+    public enableDisplay(origin: any[] = []): Layer {
+        enableHelper(this, 'display', origin);
+        return this;
     }
+    public disableDisplay(origin: any[] = []): Layer {
+        disableHelper(this, 'display', origin);
+        return this;
+    }
+    public addToMap(map: IMap, origin: any[] = []): void {
+        emitterHelper(this, 'addTo', 'map', map, origin);
+        this.map = map;
+    }
+    public removeFromMap(map: IMap, origin: any[] = []): void {
+        emitterHelper(this, 'removeFrom', 'map', map, origin);
+        this.map = undefined;
+    }
+
 }
 
 // Layer registry
@@ -124,7 +146,7 @@ export interface ILayerDictionary {
 
 var layerDict: ILayerDictionary = {};
 
-export function createLayer(opts: ILayerOptions, map: IMap): Layer {
+export function createLayer(opts: ILayerOptions): Layer {
     'use strict';
     var tmp: any; // type helper
 
@@ -137,7 +159,6 @@ export function createLayer(opts: ILayerOptions, map: IMap): Layer {
     } else {
         tmp = new layerDict[opts.type](opts);
     }
-    tmp.map = map;
     return tmp;
 }
 export function registerLayerType(type: string, driver: ILayerStatic): void {
